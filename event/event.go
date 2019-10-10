@@ -3,16 +3,24 @@ package event
 import (
 	"errors"
 	"fmt"
-	"supervisor_dingtalk_listener/utils"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/irebit/supervisor_dingtalk_listener/utils"
 )
 
 // Message 消息格式
 type Message struct {
 	Header  *Header
 	Payload *Payload
+}
+
+var HanDesc = map[string]string{
+	"PROCESS_STATE_EXITED":  "进程退出",
+	"PROCESS_STATE_STOPPED": "进程停止",
+	"PROCESS_STATE_FATAL":   "进程异常结束",
+	"PROCESS_STATE_RUNNING": "进程启动运行",
 }
 
 func (msg *Message) String() string {
@@ -108,4 +116,3 @@ func parseFields(data string) Fields {
 
 	return fields
 }
-

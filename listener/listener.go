@@ -4,10 +4,14 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"supervisor_dingtalk_listener/event"
-	//"github.com/ouqiang/supervisor-event-listener/listener/notify"
+	"time"
+
 	"log"
 	"os"
+
+	"github.com/irebit/supervisor_dingtalk_listener/event"
+	"github.com/irebit/supervisor_dingtalk_listener/notify"
+	"github.com/irebit/supervisor_dingtalk_listener/utils"
 )
 
 var (
@@ -38,10 +42,9 @@ func listen() {
 			failure(err)
 			continue
 		}
-		log.Println(header,payload)
 		// 只处理进程异常退出事件
-		if header.EventName == "PROCESS_STATE_EXITED" {
-			//notify.Push(header, payload)
+		if utils.InArray(header.EventName, []interface{}{"PROCESS_STATE_EXITED", "PROCESS_STATE_STOPPED", "PROCESS_STATE_FATAL", "PROCESS_STATE_RUNNING"}) {
+			notify.DingTalk(payload.ProcessName, payload.Ip+"上的进程："+payload.ProcessName+event.HanDesc[header.EventName]+" "+time.Now().Format("2006-01-02 15:04:05"))
 		}
 		success()
 	}
@@ -51,7 +54,7 @@ func listen() {
 func readHeader(reader *bufio.Reader) (*event.Header, error) {
 	// 读取Header
 	data, err := reader.ReadString('\n')
-	log.Println("heder",data)
+	log.Println("heder", data)
 	if err != nil {
 		return nil, err
 	}
@@ -76,8 +79,8 @@ func readPayload(reader *bufio.Reader, payloadLen int) (*event.Payload, error) {
 		return nil, ErrPayloadLength
 	}
 	// 解析payload
-        
-	log.Println("payload",string(buf))
+
+	log.Println("payload", string(buf))
 	payload, err := event.ParsePayload(string(buf))
 	if err != nil {
 		return nil, err

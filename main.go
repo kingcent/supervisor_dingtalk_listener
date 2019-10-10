@@ -1,6 +1,8 @@
 package main
 
-import "supervisor_dingtalk_listener/listener"
+import (
+	"github.com/irebit/supervisor_dingtalk_listener/listener"
+)
 
 func main() {
 	for {
