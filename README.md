@@ -13,12 +13,14 @@ supervisor process status event listener and send notification to dingtalk group
 ```
 go build main.go
 ```
-3 添加supervisor event lisenter section 配置
+3 添加 supervisor event lisenter section 配置
 ```
+    [eventlistener:dingtalk_listener]
     command=/path/to/main xxxxxxaccesstokenxxxxxxx
     process_name=%(program_name)s ; process_name expr (default %(program_name)s)
     ;numprocs=1                    ; number of processes copies to start (def 1)
     events=PROCESS_STATE           ; event notif. types to subscribe to (req'd)
+    ......
 ```
 
 4 重新载入配置
