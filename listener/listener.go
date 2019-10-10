@@ -45,7 +45,7 @@ func listen() {
 		// 只处理进程异常退出事件
 		log.Println("header.EventName", header.EventName)
 		if utils.InArray(header.EventName, []interface{}{"PROCESS_STATE_EXITED", "PROCESS_STATE_STOPPED", "PROCESS_STATE_FATAL", "PROCESS_STATE_RUNNING"}) {
-			notify.DingTalk(payload.ProcessName, payload.Ip+"上的进程："+payload.ProcessName+event.HanDesc[header.EventName]+" "+time.Now().Format("2006-01-02 15:04:05"), "127.0.0.1")
+			notify.DingTalk(payload.ProcessName+" "+payload.Ip, payload.ProcessName+" "+event.HanDesc[header.EventName]+" "+time.Now().Format("2006-01-02 15:04:05"), "127.0.0.1")
 		}
 		success()
 	}
