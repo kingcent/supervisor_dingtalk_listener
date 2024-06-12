@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/irebit/supervisor_dingtalk_listener/utils"
+	"github.com/kingcent/supervisor_dingtalk_listener/utils"
 )
 
 // Message 消息格式
